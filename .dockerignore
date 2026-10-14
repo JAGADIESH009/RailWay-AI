@@ -1,0 +1,37 @@
+# Git and version control
+.git
+.gitignore
+
+# Python cache & temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Development notebooks and offline scripts
+RailWay_AI_Training.ipynb
+build_notebook.py
+execute_notebook.py
+train_model.py
+generate_dataset.py
+railway_ai_artifacts.zip
+plots/
+
+# Java Maven Selenium test suite (packaged separately)
+tests-selenium/
+target/
+*.class
+
+# Kubernetes manifests
+k8s/
+
+# Documentation and editor metadata
+README.md
+.idea/
+.vscode/
+*.swp
+*.log

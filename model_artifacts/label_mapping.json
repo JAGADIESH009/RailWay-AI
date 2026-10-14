@@ -1,0 +1,26 @@
+{
+  "classes": [
+    "BOOKING_ISSUES",
+    "CANCELLATION",
+    "PNR_STATUS",
+    "RAC",
+    "REFUND",
+    "WAITLIST"
+  ],
+  "label2idx": {
+    "BOOKING_ISSUES": 0,
+    "CANCELLATION": 1,
+    "PNR_STATUS": 2,
+    "RAC": 3,
+    "REFUND": 4,
+    "WAITLIST": 5
+  },
+  "idx2label": {
+    "0": "BOOKING_ISSUES",
+    "1": "CANCELLATION",
+    "2": "PNR_STATUS",
+    "3": "RAC",
+    "4": "REFUND",
+    "5": "WAITLIST"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "WAITLIST": {
+    "title": "Waitlist (WL / GNWL / RLWL / PQWL) Rules & Procedures",
+    "overview": "A Waitlist (WL) status indicates that all confirmed and RAC seats for the selected train and journey class are booked. Passengers are placed in a queue, moving up as other travelers cancel their bookings.",
+    "key_points": [
+      "**GNWL (General Waiting List)**: Highest probability of confirmation; occurs when traveling from originating station to terminating station.",
+      "**RLWL (Remote Location Waiting List)**: Issued for intermediate major stations with lower seat quotas; lower confirmation chances than GNWL.",
+      "**PQWL (Pooled Quota Waiting List)**: Shared quota for intermediate smaller stations; lowest confirmation probability.",
+      "**Online E-Tickets with Fully Waitlisted Status**: If all passengers on an e-ticket remain WL after final chart preparation, the ticket is automatically cancelled and dropped. **Passengers CANNOT legally board the train on a fully waitlisted e-ticket**.",
+      "**Partially Confirmed / Waitlist E-Tickets**: If at least one passenger is CNF or RAC, waitlisted co-passengers are permitted to travel, subject to TTE seat availability.",
+      "**Counter Tickets**: Passengers holding paper PRS counter waitlist tickets may board general/unreserved coaches or consult the TTE for berth accommodation."
+    ],
+    "frequently_asked": [
+      {
+        "keywords": ["gnwl", "rlwl", "pqwl", "difference"],
+        "answer": "GNWL (General Waiting List) has the highest confirmation chance because it draws from the train's primary originating quota. RLWL draws from smaller quotas reserved for key intermediate cities. PQWL is drawn from pooled quotas for minor stations and typically has the lowest clearance rate."
+      },
+      {
+        "keywords": ["travel", "board", "sleeper", "ac", "legal", "fine", "penalty"],
+        "answer": "You CANNOT travel on a train with a fully waitlisted e-ticket after chart preparation. The reservation system drops the ticket and initiates an automatic refund. Boarding with a dropped e-ticket is treated as traveling without a ticket and attracts a penalty plus fare under Section 138 of the Railways Act."
+      },
+      {
+        "keywords": ["auto", "cancelled", "drop", "chart"],
+        "answer": "Yes, if an e-ticket remains on the waitlist after the final reservation chart is published, IRCTC automatically cancels the ticket and refunds the fare (minus a Rs. 60 clerkage fee per passenger) to your original payment mode."
+      },
+      {
+        "keywords": ["chance", "probability", "predict"],
+        "answer": "Confirmation depends on cancellations in your specific quota and coach class. While Indian Railways reservation algorithms clear GNWL first, RailWay AI is an informational system and cannot compute live confirmation probabilities."
+      }
+    ],
+    "actionable_guidance": "If your e-ticket remains in WL at chart preparation, arrange alternative travel immediately as the ticket is auto-cancelled. Do not board reserved coaches.",
+    "official_portal": "https://www.irctc.co.in"
+  },
+
+  "RAC": {
+    "title": "RAC (Reservation Against Cancellation) Rules & Rights",
+    "overview": "RAC guarantees that you are legally authorized to board the train and guarantees a designated seat for travel, though you share a berth during the night journey unless someone cancels.",
+    "key_points": [
+      "**Legal Travel**: An RAC ticket is a confirmed traveling authority. You have every right to board reserved coaches.",
+      "**Berth Allocation**: RAC passengers are typically allotted the **Side Lower (SL)** berth. Two RAC passengers share one Side Lower berth (e.g., RAC 1 and RAC 2 share one berth as sitting seats).",
+      "**Upgradation During Charting/Journey**: If a confirmed passenger cancels or does not turn up (No-Show), the TTE is required by rule to upgrade RAC passengers to full sleeping berths strictly in sequential order (RAC 1 first, then RAC 2, etc.).",
+      "**Bedroll Entitlement**: In AC coaches (1AC, 2AC, 3AC, 3E), every RAC passenger is entitled to a complete bedroll kit (sheet, pillow, and blanket).",
+      "**Cancellation Rules**: RAC tickets can be cancelled online up to 30 minutes before the scheduled departure of the train with a flat clerkage charge of Rs. 60 + GST per passenger."
+    ],
+    "frequently_asked": [
+      {
+        "keywords": ["board", "travel", "legal", "allowed"],
+        "answer": "Yes! RAC passengers have full legal right to board the train. Your journey is confirmed, though you share a sitting berth with another RAC passenger."
+      },
+      {
+        "keywords": ["berth", "seat", "sleep", "side lower", "half"],
+        "answer": "RAC passengers share a Side Lower berth. During the day it serves as two sitting seats; during the night, both passengers share the sleeping space unless a full berth is allocated by the TTE."
+      },
+      {
+        "keywords": ["bedroll", "blanket", "sheet", "pillow"],
+        "answer": "Yes, RAC passengers traveling in AC coaches (3AC, 2AC, 1AC) are entitled to receive a complete bedroll packet just like confirmed passengers."
+      },
+      {
+        "keywords": ["cancellation", "cancel", "charge", "fee"],
+        "answer": "An RAC ticket can be cancelled up to 30 minutes before train departure. Indian Railways deducts only a nominal clerkage fee (Rs. 60 per passenger + applicable GST) and refunds the balance."
+      }
+    ],
+    "actionable_guidance": "Check the final reservation chart 4 hours before departure; many RAC tickets get upgraded to full confirmed berths as last-minute quotas clear.",
+    "official_portal": "https://www.irctc.co.in"
+  },
+
+  "PNR_STATUS": {
+    "title": "PNR Status Enquiry & Charting Timelines",
+    "overview": "The Passenger Name Record (PNR) is a unique 10-digit identification number assigned to every railway reservation. It maintains passenger itineraries, coach assignments, and current status.",
+    "key_points": [
+      "**Format**: 10 numerical digits printed on the top-left of counter tickets or displayed on the top banner of IRCTC e-tickets.",
+      "**First Reservation Chart Preparation**: Finalized at least **4 hours** before the scheduled train departure from the originating station (or previous evening for trains departing before 12:00 PM). Coach and seat numbers for waitlisted/RAC/1AC passengers are officially assigned at this time.",
+      "**Second Reservation Chart Preparation**: Finalized **30 to 45 minutes** before train departure, capturing last-minute cancellations and current booking seat allocations.",
+      "**Berth Notation Meanings**: LB = Lower Berth, MB = Middle Berth, UB = Upper Berth, SL = Side Lower, SU = Side Upper, CP = Cabin/Coupe (1AC).",
+      "**Important Status Codes**: CNF = Confirmed, RAC = Reservation Against Cancellation, WL = Waitlist, CAN = Cancelled, REL = Released."
+    ],
+    "frequently_asked": [
+      {
+        "keywords": ["check", "how", "enquiry", "online"],
+        "answer": "You can check your PNR status on the official Indian Railways passenger enquiry portal (https://www.indianrail.gov.in) or IRCTC portal by entering your 10-digit PNR number."
+      },
+      {
+        "keywords": ["chart", "time", "first", "second", "prepared"],
+        "answer": "The 1st reservation chart is prepared at least 4 hours before the train's scheduled departure from the originating station. The 2nd and final chart is finalized 30 to 45 minutes prior to departure."
+      },
+      {
+        "keywords": ["coach", "seat", "assigned", "when"],
+        "answer": "For confirmed tickets booked under general quota, coach and berth are displayed immediately. For First AC (1A) tickets, Waitlist, and RAC, exact coach and coupe/berth numbers are only assigned upon 1st chart preparation."
+      },
+      {
+        "keywords": ["mb", "lb", "ub", "sl", "su", "abbreviations"],
+        "answer": "Berth codes stand for: LB = Lower Berth, MB = Middle Berth, UB = Upper Berth, SL = Side Lower Berth, SU = Side Upper Berth. In Chair Cars, WS = Window Seat."
+      }
+    ],
+    "actionable_guidance": "Always recheck your PNR status after the 1st chart is prepared (4 hours before departure) to verify your final coach, berth, and platform details.",
+    "official_portal": "https://www.indianrail.gov.in/enquiry/PNR/PnrEnquiry.html"
+  },
+
+  "CANCELLATION": {
+    "title": "Train Ticket Cancellation Slabs & Rules",
+    "overview": "Cancellation rules and refund amounts depend on how far in advance of the train's scheduled departure the cancellation is initiated and the booking class.",
+    "key_points": [
+      "**More than 48 hours before departure (Flat Clerkage)**:\n  - 1st AC / Executive Class: Rs. 240 + GST\n  - 2nd AC / First Class: Rs. 200 + GST\n  - 3rd AC / AC 3-Economy / AC Chair Car: Rs. 180 + GST\n  - Sleeper Class: Rs. 120\n  - Second Seating (2S): Rs. 60",
+      "**Between 48 hours and 12 hours before departure**: 25% of the total base fare deducted, subject to the minimum flat clerkage fee.",
+      "**Between 12 hours and 4 hours before departure (up to chart preparation)**: 50% of the fare deducted, subject to minimum flat clerkage.",
+      "**Less than 4 hours before departure (Post Charting)**: **No refund** is admissible on confirmed e-tickets cancelled after chart preparation.",
+      "**Confirmed Tatkal Tickets**: **Zero refund** (100% deduction) is granted upon cancelling a confirmed Tatkal ticket, unless the train is cancelled by Railways or running late by > 3 hours.",
+      "**Train Delayed > 3 Hours or Cancelled**: 100% full refund of fare without any cancellation charge if a TDR is filed before actual train departure."
+    ],
+    "frequently_asked": [
+      {
+        "keywords": ["charges", "fee", "deduction", "sleeper", "3ac", "2ac"],
+        "answer": "If cancelled >48 hours prior: Flat Rs. 240 for 1AC, Rs. 200 for 2AC, Rs. 180 for 3AC, Rs. 120 for Sleeper, and Rs. 60 for 2S. Between 48h and 12h: 25% deducted. Between 12h and 4h: 50% deducted."
+      },
+      {
+        "keywords": ["tatkal", "confirmed", "tatkal cancel"],
+        "answer": "No refund is admissible on the cancellation of confirmed Tatkal tickets under normal conditions. Full refund is only granted if the train is cancelled by railways or delayed by more than 3 hours."
+      },
+      {
+        "keywords": ["after chart", "chart prepared", "post chart"],
+        "answer": "No refund is granted on confirmed tickets cancelled after chart preparation. If you cannot travel, you must file an online TDR before the train departs from your boarding station specifying valid reasons."
+      },
+      {
+        "keywords": ["tdr", "ticket deposit receipt", "file"],
+        "answer": "Ticket Deposit Receipt (TDR) is filed on IRCTC under 'My Transactions' -> 'File TDR'. It is used when passengers could not travel due to train delay > 3 hrs, AC failure, coach not attached, or short termination."
+      }
+    ],
+    "actionable_guidance": "Cancel confirmed tickets at least 48 hours in advance to pay only the minimum flat clerkage fee. If the train is delayed over 3 hours, file TDR before departure to claim a 100% refund.",
+    "official_portal": "https://www.operations.irctc.co.in/ctcan/cancel.jsf"
+  },
+
+  "REFUND": {
+    "title": "Railway Refund Policy, Timelines & Bank Reconciliation",
+    "overview": "Indian Railways processes refunds electronically through IRCTC payment gateways back to the source account used during booking. Refund amounts depend on cancellation policy rules.",
+    "key_points": [
+      "**Processing Timelines**:\n  - UPI / Net Banking: Usually credited within **3 to 5 business days**.\n  - Credit / Debit Cards: Usually credited within **5 to 7 business days**.",
+      "**Automatic Refunds**:\n  - Fully waitlisted e-tickets dropped after chart preparation are refunded automatically without requiring user action.\n  - Trains cancelled by Indian Railways are refunded automatically in full for e-tickets.",
+      "**Clerkage Deduction**: A non-refundable clerkage fee of Rs. 60 per passenger (+ GST for AC classes) is deducted on cancelled Waitlist and RAC tickets.",
+      "**Non-Refundable Components**: IRCTC convenience fees, agent service charges, and travel insurance premiums (Rs. 0.45) are strictly non-refundable.",
+      "**TDR Claim Refunds**: Refunds for TDR claims are vetted and settled by the respective Zonal Railway audit office within 30 to 90 days."
+    ],
+    "frequently_asked": [
+      {
+        "keywords": ["days", "time", "timeline", "when", "long"],
+        "answer": "IRCTC initiates refunds immediately upon cancellation. Depending on your bank's settlement cycle, UPI/Net Banking takes 3–5 business days, while Debit/Credit cards take 5–7 business days to reflect in your statement."
+      },
+      {
+        "keywords": ["automatic", "auto", "train cancelled", "dropped"],
+        "answer": "Yes, if an e-ticket is fully waitlisted after chart preparation or if the train is officially cancelled by Indian Railways, IRCTC processes an automatic full refund directly to your original payment method."
+      },
+      {
+        "keywords": ["not received", "delay", "missing", "failed"],
+        "answer": "If your refund has not arrived after 7 working days, check your IRCTC 'Refund Status' under 'My Transactions' to find the Bank ARN (Acquirer Reference Number). Provide this ARN to your bank's customer support to locate the transaction."
+      },
+      {
+        "keywords": ["clerkage", "deducted", "less", "amount"],
+        "answer": "For waitlisted and RAC tickets, Indian Railways levies a statutory clerkage charge of Rs. 60 per passenger. Additionally, convenience fees charged at the time of booking are non-refundable."
+      }
+    ],
+    "actionable_guidance": "Track your refund status under IRCTC 'My Transactions' -> 'Ticket Refund History'. Quote the ARN (Acquirer Reference Number) when querying your bank.",
+    "official_portal": "https://www.irctc.co.in"
+  },
+
+  "BOOKING_ISSUES": {
+    "title": "IRCTC Booking Issues, Payment Failures & Tatkal Timelines",
+    "overview": "Guidelines for resolving common transaction failures, booking quota restrictions, payment deductions without ticket generation, and technical portal errors.",
+    "key_points": [
+      "**Money Debited But Ticket Not Booked**:\n  - Occurs when the payment gateway fails to communicate confirmation to IRCTC within the session window.\n  - Such transactions are marked as failed; the debited funds are **automatically refunded** by your bank/payment gateway within **3 to 5 working days**.\n  - Do not panic; your money is secure in the banking settlement loop.",
+      "**Tatkal Booking Opening Times**:\n  - **AC Classes (1AC, 2AC, 3AC, 3E, CC)**: Opens at **10:00 AM IST** one day prior to train departure from originating station.\n  - **Non-AC Classes (Sleeper, 2S, FC)**: Opens at **11:00 AM IST** one day prior to departure.",
+      "**Monthly Ticket Limits**:\n  - Normal users: Maximum 12 tickets per calendar month.\n  - Aadhaar-authenticated users: Maximum 24 tickets per calendar month.",
+      "**Captcha & Session Timeout Fixes**: Use high-speed internet, clear browser cache, ensure device time is synchronized to IST, and avoid refreshing during payment routing.",
+      "**Master List Feature**: Pre-saving passenger details in IRCTC 'Master List' allows 1-click auto-fill during high-speed Tatkal openings."
+    ],
+    "frequently_asked": [
+      {
+        "keywords": ["money debited", "deducted", "not booked", "payment failed", "debited"],
+        "answer": "If money was deducted from your bank or UPI app but no ticket or PNR was generated, the transaction timed out. Your bank will automatically reconcile and refund the entire amount within 3 to 5 business days."
+      },
+      {
+        "keywords": ["tatkal time", "tatkal timing", "tatkal hours", "opening"],
+        "answer": "Tatkal booking opens daily at 10:00 AM IST for AC classes (2AC, 3AC, CC, 3E) and at 11:00 AM IST for Non-AC classes (Sleeper, 2S) for journeys scheduled for the following day."
+      },
+      {
+        "keywords": ["limit", "month", "tickets", "how many"],
+        "answer": "A standard IRCTC account can book up to 12 tickets per month. If you link and verify your Aadhaar in your IRCTC profile, this limit increases to 24 tickets per month."
+      },
+      {
+        "keywords": ["name change", "transfer", "passenger change"],
+        "answer": "Passenger name change on confirmed tickets is permitted at railway reservation counters up to 24 hours before departure by submitting a written request and government ID proof, but only for immediate blood relatives (father, mother, brother, sister, spouse, child)."
+      }
+    ],
+    "actionable_guidance": "If funds are debited without ticket generation, do not re-book repeatedly until checking your bank account and IRCTC booking history. Funds will auto-reverse within 3–5 days.",
+    "official_portal": "https://www.irctc.co.in"
+  }
+}
