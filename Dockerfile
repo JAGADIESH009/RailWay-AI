@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy requirements and install CPU-optimized PyTorch and runtime packages
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
 
 # Copy application code, knowledge base, dataset, and trained model artifacts
 COPY app.py inference.py knowledge_base.json ./

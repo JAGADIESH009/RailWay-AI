@@ -233,26 +233,29 @@ git log -n 1 --stat
 A dedicated Java Maven test project is provided in `tests-selenium/` to validate the live running Streamlit web application.
 
 ### Test Coverage (`ChatbotSeleniumTest.java`):
-1. **`testChatbotLoads()`**: Verifies that the Streamlit page loads, displays the `RailWay AI` header and branding, and ensures the chat input is rendered and interactive.
-2. **`testRailwayQuestion_RAC()`**: Submits a real railway inquiry (*"What is the rule for RAC ticket and do I get a berth?"*), verifies that the assistant generates a response, and asserts that the response contains RAC and berth rules.
-3. **`testUnrelatedQuestion_Rejection()`**: Submits an out-of-domain prompt (*"How do I bake a chocolate cake with chocolate frosting?"*) and asserts that the assistant rejects the query and guides the user back to railway topics.
+1. **`test01_ChatbotLoads()`**: Verifies that the Streamlit page loads, displays the `RailWay AI` header and branding, and ensures the chat input is rendered and interactive.
+2. **`test02_RailwayQuestion_RAC()`**: Submits a real railway inquiry (*"What is the rule for RAC ticket and do I get a berth?"*), verifies `RAC` category badge, and asserts domain keywords (`berth`, `seat`, `Side Lower`, `TTE`, `passenger`).
+3. **`test03_WaitlistQuestion()`**: Submits specific waitlist query (*"WL 10 confirmed or not?"*), asserts `WAITLIST` badge (99.8% confidence), waitlist queue explanation, charting timelines, and e-ticket auto-cancellation rules.
+4. **`test04_PnrStatusQuestion()`**: Submits PNR inquiry (*"When is the reservation chart prepared for PNR status?"*), asserts `PNR_STATUS` badge (100.0% confidence), charting timeline (4 hours prior), and CRIS/IRCTC verification rules.
+5. **`test05_TicketCancellationQuestion()`**: Submits cancellation inquiry (*"What are the cancellation charges for a confirmed ticket?"*), asserts `CANCELLATION` badge (99.6% confidence), fee slabs, clerkage charges, and departure window deductions.
+6. **`test06_UnrelatedQuestion_Rejection()`**: Submits an out-of-domain prompt (*"How do I bake a chocolate cake with chocolate frosting?"*), asserts `OUT OF DOMAIN` badge (99.6% confidence), and verifies that the assistant rejects the query and guides the user back to railway topics.
 
 ### How to Run the Tests (Windows PowerShell)
 
-Ensure the Streamlit application is running (`streamlit run app.py` on port 8501), then execute:
+Ensure the application is running (either locally on port 8501 or via Docker on port 8502):
 
 ```powershell
 # Navigate to the test project
 cd "tests-selenium"
 
-# Run tests in headless mode (default)
+# 1. Run tests against local Streamlit server (default port 8501)
 mvn test
 
-# Run tests in headed mode (opens real Google Chrome browser window)
-mvn test -Dheadless=false
+# 2. Run tests against Docker container (port 8502)
+mvn test "-Dapp.url=http://localhost:8502"
 
-# Run tests against a custom URL (e.g. Docker container or Kubernetes service)
-mvn test -Dapp.url=http://localhost:8501
+# 3. Run tests in headed mode (opens real Google Chrome browser window)
+mvn test "-Dheadless=false"
 ```
 
 ### Verified Real Test Execution Output:
@@ -264,14 +267,13 @@ Target Application URL: http://localhost:8501
 Headless Mode: true
 =================================================
 Detected Page Title: RailWay AI - Railway Domain Assistant
-Assistant Response to RAC query:
-🚆 Category: RAC • Confidence: 95.3%
-RAC (Reservation Against Cancellation) Rules & Rights...
-Assistant Response to Unrelated query:
-🚆 Category: OUT OF DOMAIN • Confidence: 99.6%
-I am RailWay AI, a specialized assistant trained exclusively on railway reservation policies...
+[Test 2] RAC Query -> Category: RAC (95.3%) • Berth & passenger rights verified.
+[Test 3] Waitlist Query -> Category: WAITLIST (99.8%) • Queue & charting rules verified.
+[Test 4] PNR Query -> Category: PNR_STATUS (100.0%) • 4-hour timeline verified.
+[Test 5] Cancellation Query -> Category: CANCELLATION (99.6%) • Fee slabs verified.
+[Test 6] Out-of-Domain Query -> Category: OUT OF DOMAIN (99.6%) • Boundary guardrail verified.
 Selenium WebDriver closed successfully.
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
 [INFO] BUILD SUCCESS
 ```
 

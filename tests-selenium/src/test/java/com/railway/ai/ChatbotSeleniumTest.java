@@ -8,10 +8,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.util.List;
 
@@ -22,8 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * Validates real, live browser interactions against the running Streamlit chatbot:
  * 1. App loading and header presence.
- * 2. Sending a valid railway domain question (RAC/Waitlist) and verifying AI response.
- * 3. Sending an out-of-domain query (e.g. cake recipe) and verifying rejection safeguards.
+ * 2. Railway-related inquiry (RAC rights & berth sharing rules).
+ * 3. Specific waitlist inquiry ("WL 10 confirmed or not?").
+ * 4. PNR status enquiry and charting timelines.
+ * 5. Ticket cancellation fee slabs and refund rules.
+ * 6. Unrelated out-of-domain inquiry and boundary rejection guardrails.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ChatbotSeleniumTest {
@@ -53,7 +52,6 @@ public class ChatbotSeleniumTest {
         System.out.println("Headless Mode: " + isHeadless);
         System.out.println("=================================================");
 
-        // Automatically configure ChromeDriver compatible with installed Google Chrome
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -69,6 +67,12 @@ public class ChatbotSeleniumTest {
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        // Open application once at setup to establish initial session
+        driver.get(appUrl);
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("textarea[data-testid='stChatInputTextArea'], textarea")
+        ));
     }
 
     @AfterAll
@@ -80,15 +84,12 @@ public class ChatbotSeleniumTest {
     }
 
     /**
-     * Test 1: Verify the Chatbot Application loads and renders the title and sidebar
+     * Test 1: Verify the Chatbot Application loads and renders the title and chat input
      */
     @Test
     @Order(1)
-    @DisplayName("Verify Chatbot Page Loads and Displays Railway AI Header")
-    public void testChatbotLoads() {
-        driver.get(appUrl);
-
-        // Wait for Streamlit root application container and chat input
+    @DisplayName("Verify Chatbot Page Loads and Displays Railway AI Branding")
+    public void test01_ChatbotLoads() {
         WebElement chatInput = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.cssSelector("textarea[data-testid='stChatInputTextArea'], textarea")
         ));
@@ -108,70 +109,164 @@ public class ChatbotSeleniumTest {
     }
 
     /**
-     * Test 2: Send a genuine railway domain question (RAC inquiry) and assert AI response
+     * Test 2: Railway-Related Question (RAC rules and berth rights)
      */
     @Test
     @Order(2)
-    @DisplayName("Verify Railway Question on RAC Yields Domain-Accurate AI Response")
-    public void testRailwayQuestion_RAC() throws InterruptedException {
-        driver.get(appUrl);
-        Thread.sleep(1500); // Allow Streamlit session to hydrate
-
+    @DisplayName("1. Railway-Related Question: Verify RAC Rights & Berth Rules")
+    public void test02_RailwayQuestion_RAC() {
         String query = "What is the rule for RAC ticket and do I get a berth?";
-        sendChatMessage(query);
+        System.out.println("\n[Test 2] Sending Railway Question: " + query);
 
-        // Wait for at least one assistant message response to appear
-        WebElement assistantMessage = waitForLatestAssistantMessage();
+        WebElement assistantMessage = askChatbotAndWait(query);
         String responseText = assistantMessage.getText();
-        System.out.println("Assistant Response to RAC query:\n" + responseText);
+        System.out.println("Assistant Response:\n" + responseText);
 
         assertNotNull(responseText, "Response text must not be null.");
         assertFalse(responseText.trim().isEmpty(), "Response text must not be empty.");
 
-        // Validate that response contains railway/RAC domain knowledge
-        boolean containsDomainKeyword = responseText.toLowerCase().contains("rac") ||
-                responseText.toLowerCase().contains("berth") ||
-                responseText.toLowerCase().contains("seat") ||
-                responseText.toLowerCase().contains("reservation") ||
-                responseText.toLowerCase().contains("passenger");
+        // Category Badge Assertion
+        assertTrue(responseText.contains("RAC"),
+                "Response badge should indicate RAC category. Received:\n" + responseText);
 
-        assertTrue(containsDomainKeyword,
-                "Expected response to mention RAC, berth, or seat details, but received: " + responseText);
+        // Meaningful Domain Keyword Assertions
+        String lower = responseText.toLowerCase();
+        boolean mentionsBerthOrSeat = lower.contains("berth") || lower.contains("seat") || lower.contains("side lower");
+        boolean mentionsRules = lower.contains("passenger") || lower.contains("tte") || lower.contains("rules") || lower.contains("cancellation");
+
+        assertTrue(mentionsBerthOrSeat, "Response should explain berth or seat allocation. Received:\n" + responseText);
+        assertTrue(mentionsRules, "Response should detail passenger rules or TTE procedures. Received:\n" + responseText);
     }
 
     /**
-     * Test 3: Send an out-of-domain query (e.g. baking cake) and assert boundary rejection
+     * Test 3: Waitlist Question ("WL 10 confirmed or not?")
      */
     @Test
     @Order(3)
-    @DisplayName("Verify Unrelated Out-of-Domain Question is Rejected by Guardrails")
-    public void testUnrelatedQuestion_Rejection() throws InterruptedException {
-        driver.get(appUrl);
-        Thread.sleep(1500);
+    @DisplayName("2. Waitlist Question: Verify 'WL 10 confirmed or not?' Accuracy")
+    public void test03_WaitlistQuestion() {
+        String query = "WL 10 confirmed or not?";
+        System.out.println("\n[Test 3] Sending Waitlist Question: " + query);
 
-        String unrelatedQuery = "How do I bake a chocolate cake with chocolate frosting?";
-        sendChatMessage(unrelatedQuery);
-
-        WebElement assistantMessage = waitForLatestAssistantMessage();
+        WebElement assistantMessage = askChatbotAndWait(query);
         String responseText = assistantMessage.getText();
-        System.out.println("Assistant Response to Unrelated query:\n" + responseText);
+        System.out.println("Assistant Response:\n" + responseText);
 
-        // Check that rejection safeguards or out-of-domain notification is triggered
-        boolean isRejected = responseText.toLowerCase().contains("railway") ||
-                responseText.toLowerCase().contains("irctc") ||
-                responseText.toLowerCase().contains("scope") ||
-                responseText.toLowerCase().contains("train") ||
-                responseText.toLowerCase().contains("assist") ||
-                responseText.toLowerCase().contains("specialize");
+        assertNotNull(responseText, "Response text must not be null.");
+        assertFalse(responseText.trim().isEmpty(), "Response text must not be empty.");
 
-        assertTrue(isRejected,
-                "Out-of-domain question should be guided back to Railway domain. Received: " + responseText);
+        // Category Badge Assertion
+        assertTrue(responseText.contains("WAITLIST"),
+                "Response badge should indicate WAITLIST category. Received:\n" + responseText);
+
+        // Meaningful Waitlist Keyword Assertions
+        String lower = responseText.toLowerCase();
+        boolean mentionsWaitlist = lower.contains("waitlist") || lower.contains("wl") || lower.contains("gnwl");
+        boolean mentionsChartOrConfirmation = lower.contains("chart") || lower.contains("confirm") || lower.contains("cancellation");
+        boolean mentionsTicketStatus = lower.contains("e-ticket") || lower.contains("passenger") || lower.contains("refund");
+
+        assertTrue(mentionsWaitlist, "Response should mention Waitlist or WL terminology. Received:\n" + responseText);
+        assertTrue(mentionsChartOrConfirmation, "Response should explain chart preparation or confirmation process. Received:\n" + responseText);
+        assertTrue(mentionsTicketStatus, "Response should cover ticket status or cancellation rules. Received:\n" + responseText);
     }
 
     /**
-     * Helper to find the chat input, type text, and submit via Enter or Send Button
+     * Test 4: PNR Status Question (Charting timelines & enquiry)
      */
-    private void sendChatMessage(String message) {
+    @Test
+    @Order(4)
+    @DisplayName("3. PNR Status Question: Verify Charting Timelines & Enquiry")
+    public void test04_PnrStatusQuestion() {
+        String query = "When is the reservation chart prepared for PNR status?";
+        System.out.println("\n[Test 4] Sending PNR Status Question: " + query);
+
+        WebElement assistantMessage = askChatbotAndWait(query);
+        String responseText = assistantMessage.getText();
+        System.out.println("Assistant Response:\n" + responseText);
+
+        assertNotNull(responseText, "Response text must not be null.");
+        assertFalse(responseText.trim().isEmpty(), "Response text must not be empty.");
+
+        // Category Badge Assertion
+        assertTrue(responseText.contains("PNR_STATUS"),
+                "Response badge should indicate PNR_STATUS category. Received:\n" + responseText);
+
+        // Meaningful PNR Keyword Assertions
+        String lower = responseText.toLowerCase();
+        boolean mentionsPnrOrChart = lower.contains("pnr") || lower.contains("chart");
+        boolean mentionsTimeline = lower.contains("hour") || lower.contains("prior") || lower.contains("departure") || lower.contains("cris");
+
+        assertTrue(mentionsPnrOrChart, "Response must mention PNR or reservation chart. Received:\n" + responseText);
+        assertTrue(mentionsTimeline, "Response must explain charting timeline (e.g. 4 hours prior) or CRIS portal. Received:\n" + responseText);
+    }
+
+    /**
+     * Test 5: Ticket Cancellation Question (Fee slabs and refund rules)
+     */
+    @Test
+    @Order(5)
+    @DisplayName("4. Cancellation Question: Verify Cancellation Charges & Slabs")
+    public void test05_TicketCancellationQuestion() {
+        String query = "What are the cancellation charges for a confirmed ticket?";
+        System.out.println("\n[Test 5] Sending Ticket Cancellation Question: " + query);
+
+        WebElement assistantMessage = askChatbotAndWait(query);
+        String responseText = assistantMessage.getText();
+        System.out.println("Assistant Response:\n" + responseText);
+
+        assertNotNull(responseText, "Response text must not be null.");
+        assertFalse(responseText.trim().isEmpty(), "Response text must not be empty.");
+
+        // Category Badge Assertion
+        assertTrue(responseText.contains("CANCELLATION"),
+                "Response badge should indicate CANCELLATION category. Received:\n" + responseText);
+
+        // Meaningful Cancellation Keyword Assertions
+        String lower = responseText.toLowerCase();
+        boolean mentionsCancel = lower.contains("cancel");
+        boolean mentionsChargesOrHours = lower.contains("charge") || lower.contains("clerkage") || lower.contains("hour") || lower.contains("flat") || lower.contains("refund");
+
+        assertTrue(mentionsCancel, "Response must mention ticket cancellation. Received:\n" + responseText);
+        assertTrue(mentionsChargesOrHours, "Response must explain fee slabs, hours prior to departure, or refund rules. Received:\n" + responseText);
+    }
+
+    /**
+     * Test 6: Unrelated Question (Out-of-domain chocolate cake recipe)
+     */
+    @Test
+    @Order(6)
+    @DisplayName("5. Unrelated Question: Verify Out-of-Domain Guardrail Rejection")
+    public void test06_UnrelatedQuestion_Rejection() {
+        String query = "How do I bake a chocolate cake with chocolate frosting?";
+        System.out.println("\n[Test 6] Sending Unrelated Question: " + query);
+
+        WebElement assistantMessage = askChatbotAndWait(query);
+        String responseText = assistantMessage.getText();
+        System.out.println("Assistant Response:\n" + responseText);
+
+        assertNotNull(responseText, "Response text must not be null.");
+        assertFalse(responseText.trim().isEmpty(), "Response text must not be empty.");
+
+        // Category Badge Assertion
+        assertTrue(responseText.contains("OUT OF DOMAIN") || responseText.contains("OUT_OF_DOMAIN"),
+                "Response badge should indicate OUT OF DOMAIN. Received:\n" + responseText);
+
+        // Guardrail Rejection Guidance Assertions
+        String lower = responseText.toLowerCase();
+        boolean hasDomainGuidance = lower.contains("railway") || lower.contains("irctc") || lower.contains("specialized assistant") || lower.contains("scope");
+
+        assertTrue(hasDomainGuidance,
+                "Out-of-domain response must inform the user of domain boundaries and guide them back to Railway topics. Received:\n" + responseText);
+    }
+
+    /**
+     * Helper to send a chat message and reliably wait for the assistant's reply.
+     * Uses dynamic message count tracking to guarantee correctness across tests.
+     */
+    private WebElement askChatbotAndWait(String message) {
+        List<WebElement> existingMessages = driver.findElements(By.cssSelector("[data-testid='stChatMessage']"));
+        int initialCount = existingMessages.size();
+
         WebElement chatInput = wait.until(ExpectedConditions.elementToBeClickable(
                 By.cssSelector("textarea[data-testid='stChatInputTextArea'], textarea")
         ));
@@ -180,45 +275,28 @@ public class ChatbotSeleniumTest {
         chatInput.sendKeys(message);
         chatInput.sendKeys(Keys.ENTER);
 
-        // Fallback: try clicking send button if present
+        // Fallback: click submit button if available
         try {
             List<WebElement> sendButtons = driver.findElements(By.cssSelector("button[data-testid='stChatInputSubmitButton']"));
             if (!sendButtons.isEmpty() && sendButtons.get(0).isEnabled()) {
                 sendButtons.get(0).click();
             }
-        } catch (Exception ignored) {
-        }
-    }
+        } catch (Exception ignored) {}
 
-    /**
-     * Helper to wait for the latest assistant message bubble
-     */
-    private WebElement waitForLatestAssistantMessage() {
-        // Wait for Streamlit assistant chat message container
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("[data-testid='stChatMessage']")
-        ));
-
-        // Allow up to 15 seconds for inference completion
-        long endTime = System.currentTimeMillis() + 15000;
-        WebElement targetAssistant = null;
-
-        while (System.currentTimeMillis() < endTime) {
-            List<WebElement> chatMessages = driver.findElements(By.cssSelector("[data-testid='stChatMessage']"));
-            if (chatMessages.size() >= 2) {
-                // The last message is the assistant's reply
-                WebElement lastMsg = chatMessages.get(chatMessages.size() - 1);
-                if (!lastMsg.getText().trim().isEmpty()) {
-                    targetAssistant = lastMsg;
-                    break;
-                }
+        // Wait until both user message and full assistant reply (including markdown body) are rendered
+        wait.until(driverInstance -> {
+            List<WebElement> msgs = driverInstance.findElements(By.cssSelector("[data-testid='stChatMessage']"));
+            if (msgs.size() >= initialCount + 2) {
+                WebElement last = msgs.get(msgs.size() - 1);
+                String text = last.getText().trim();
+                // The category badge alone is ~40 chars; full response body is >100 chars
+                return text.length() > 80 && !text.equals(message.trim());
             }
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException ignored) {}
-        }
+            return false;
+        });
 
-        assertNotNull(targetAssistant, "Assistant failed to generate response within timeout.");
-        return targetAssistant;
+        List<WebElement> updatedMessages = driver.findElements(By.cssSelector("[data-testid='stChatMessage']"));
+        return updatedMessages.get(updatedMessages.size() - 1);
     }
 }
+
